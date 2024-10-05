@@ -13,7 +13,7 @@ def filt_by_dist(data, distance_threshold):
     Returns:
     dataframe containing only exoplanets within that distance threshold"""
 
-    filtered_exoplanets = data[data['sy_dist'] <= distance_threshold.dropna(subset=['sy_dist'])]
+    filtered_exoplanets = data[data['sy_dist'] <= distance_threshold].dropna(subset=['sy_dist'])
     return filtered_exoplanets
 
 def filt_by_dia_and_wavelength(data, telescope_diameter, wavelength):
