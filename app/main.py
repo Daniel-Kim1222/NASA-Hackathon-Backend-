@@ -15,7 +15,7 @@ app.add_middleware(
 @app.on_event("startup")
 def on_startup():
     """start the scheduler and run fetch_data_and_save on startup"""
-    start_scheduler()
+    # this is where the code for the scheduler will go when we are done with it
 
 @app.get("/")
 def root():
