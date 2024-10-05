@@ -44,4 +44,43 @@ def filt_by_dia_and_wavelength(data, telescope_diameter, wavelength):
     return filtered_exoplanets
 
 
+def filt_by_discovery_method(data, method):
+    """
+    This one is pretty self explanatory. Filters by discovery method.
+    
+    Parameters:
+    data: exoplanet dataset
+    method: the discovery method to filter by
+    
+    Returns:
+    Filtered dataframe."""
+    return data[data['discoverymethod'] == method]
+
+def filt_by_esi(data, esi):
+    """
+    Filters exoplanets by their calculated ESI
+    
+    paramters:
+    data: exoplanet dataset
+    esi: MINIMUM ESI value for filtering(default is 0)
+    
+    Returns:
+    Filtered dataset"""
+    filtered_exoplanets = data[data['pl_esi'] >= esi].dropna(subset=['pl_esi'])
+    return filtered_exoplanets
+
+def filt_by_combined_filt(data, filters):
+    df = data
+
+    if 'max_distance' in filters:
+        df = filt_by_dist(df, filters['max_distance'])
+    
+    if 'diameter' in filters and 'wavelength' in filters:
+        df = filt_by_dia_and_wavelength(df, filters['telescope_diameter'], filters['wavelength'])
+    if 'esi_threshold' in filters:
+        df = filt_by_esi(df, filters['esi_threshold'])
+    if 'discovery_method' in filters:
+        df = filt_by_discovery_method(df, filters['discovery_method'])
+    return df
+
     

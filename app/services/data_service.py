@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import simplejson as json
 from app.utils.csvutil import clean_csv
+from app.utils.filters import filt_by_combined_filt, filt_by_dia_and_wavelength, filt_by_discovery_method, filt_by_dist, filt_by_esi
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # URL of the API from which we will fetch data 
@@ -48,7 +49,7 @@ def start_scheduler():
     """Start the scheduler to run fetch_data_and_save once every day."""
     # Call fetch_data_and_save immediately
     #fetch_data_and_save() is what you want to disable if you want to debug the code without saving every time
-    fetch_data_and_save()
+    # fetch_data_and_save()
     # Schedule the function to run daily
     scheduler.add_job(fetch_data_and_save, 'interval', days=1)
      # Start the scheduler
@@ -75,16 +76,21 @@ def get_data(threshold = None, type="full"):
         raise ValueError(f"threshold is required for filtering with type '{type}'")
     
     # I will get to these when filters.py is done
-    # elif type == "combined":
-        #filt_df = 
-    # elif type == "distance":
-        #filt_df = 
-    # elif type == "diameter_wavelength"
-        #filt_df = 
-    # elif type == "discovery_method"
-        #filt_df = 
-    # elif type == "esi":
-        #filt_df = 
-    #ddict = filt_df[['pl_name']].to_dict(orient = 'records')
-    #return json.dumps(ddict, ignore_nan = True)
+    elif type == "combined":
+        filt_df = filt_by_combined_filt(df, threshold)
+    elif type == "distance":
+        max_distance = threshold.get("max_distance")
+        filt_df = filt_by_dist(df, max_distance)
+    elif type == "diameter_wavelength":
+        telescope_dia = threshold.get("telescope_diameter")
+        wavelength = threshold.get("wavelength")
+        filt_df = filt_by_dia_and_wavelength(df, telescope_dia, wavelength)
+    elif type == "discovery_method":
+        disc_method = threshold.get("discovery_method")
+        filt_df = filt_by_discovery_method(df, disc_method)
+    elif type == "esi":
+        esi_threshold = threshold.get("esi_threshold")
+        filt_df = filt_by_esi(df, esi_threshold)
+    ddict = filt_df[['pl_name']].to_dict(orient = 'records')
+    return json.dumps(ddict, ignore_nan = True)
     
