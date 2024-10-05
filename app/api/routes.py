@@ -13,6 +13,6 @@ def fetch_data():
 
 @router.get("/data")
 def get_exo_data():
-    # returns the cleaned exoplanet data
+    """Return the cleaned exoplanet data."""
     data = get_data()
     return json.loads(data)
