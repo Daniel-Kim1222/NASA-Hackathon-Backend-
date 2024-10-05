@@ -47,6 +47,7 @@ scheduler = BackgroundScheduler()
 def start_scheduler():
     """Start the scheduler to run fetch_data_and_save once every day."""
     # Call fetch_data_and_save immediately
+    #fetch_data_and_save() is what you want to disable if you want to debug the code without saving every time
     fetch_data_and_save()
     # Schedule the function to run daily
     scheduler.add_job(fetch_data_and_save, 'interval', days=1)
