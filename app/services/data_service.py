@@ -2,6 +2,7 @@ import requests
 import os
 import pandas as pd
 import simplejson as json
+from app.utils.csvutil import clean_csv
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # URL of the API from which we will fetch data 
@@ -32,8 +33,8 @@ def fetch_data_and_save():
 
         print("succeeded!")
 
-
-        #clean function should go here once it is written
+        #cleans the csv file from unnecessary columns
+        clean_csv(csv_file_path)
         print("Data saved as CSV successfully")
 
 

@@ -16,3 +16,6 @@ def get_exo_data():
     """Return the cleaned exoplanet data."""
     data = get_data()
     return json.loads(data)
+
+
+# @router.post("/data/filters/distance")
