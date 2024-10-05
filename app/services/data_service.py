@@ -42,3 +42,38 @@ def fetch_data_and_save():
 
 # set up scheduler to run daily
 scheduler = BackgroundScheduler()
+
+def get_data(threshold = None, type="full"):
+    folder_name = 'data'
+    csv_file_path = os.path.join(folder_name, 'planetary_system_composite_cleaned.csv')
+
+
+    # load csv into pandas dataframe
+    df = pd.read_csv(csv_file_path)
+
+
+    #check for file type
+
+    #full data
+    if type == "full":
+        ddict = df.to_dict(orient="records")
+        return json.dumps(ddict, ignore_nan= True)
+    
+    #these are for if the type is NOT full, and the user requests data of a certain type/threshold.
+    if threshold is None:
+        raise ValueError(f"threshold is required for filtering with type '{type}'")
+    
+    # I will get to these when filters.py is done
+    # elif type == "combined":
+        #filt_df = 
+    # elif type == "distance":
+        #filt_df = 
+    # elif type == "diameter_wavelength"
+        #filt_df = 
+    # elif type == "discovery_method"
+        #filt_df = 
+    # elif type == "esi":
+        #filt_df = 
+    #ddict = filt_df[['pl_name']].to_dict(orient = 'records')
+    #return json.dumps(ddict, ignore_nan = True)
+    

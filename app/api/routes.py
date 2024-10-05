@@ -7,12 +7,12 @@ router = APIRouter()
 
 @router.get("/fetch")
 def fetch_data():
-    # will put fetch command here from services when done
+    fetch_data_and_save()
     return {"message":"data fetched and saved as CSV"}
 
 
 @router.get("/data")
 def get_exo_data():
     # returns the cleaned exoplanet data
-    #placeholder for data = data function
+    data = get_data()
     return json.loads(data)
