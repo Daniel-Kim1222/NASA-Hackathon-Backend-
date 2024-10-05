@@ -75,19 +75,24 @@ def get_data(threshold = None, type="full"):
     if threshold is None:
         raise ValueError(f"threshold is required for filtering with type '{type}'")
     
-    # I will get to these when filters.py is done
+
+    #combined is a mix of all of the filters.
     elif type == "combined":
         filt_df = filt_by_combined_filt(df, threshold)
+    #distance filters by distance of the planets from our current system.
     elif type == "distance":
         max_distance = threshold.get("max_distance")
         filt_df = filt_by_dist(df, max_distance)
+    #this filters by telescope diameter needed and the wavelength of the light measured.
     elif type == "diameter_wavelength":
         telescope_dia = threshold.get("telescope_diameter")
         wavelength = threshold.get("wavelength")
         filt_df = filt_by_dia_and_wavelength(df, telescope_dia, wavelength)
+    #this filters by the method of discovery.
     elif type == "discovery_method":
         disc_method = threshold.get("discovery_method")
         filt_df = filt_by_discovery_method(df, disc_method)
+    #this filters by ESI, or "earth similarity index". It is a 0-1 scale that measures how similar this planet is to earth, and in turn, how likely it is to support life.
     elif type == "esi":
         esi_threshold = threshold.get("esi_threshold")
         filt_df = filt_by_esi(df, esi_threshold)

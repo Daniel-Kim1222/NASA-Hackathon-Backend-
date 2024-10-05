@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import numpy as np
 
+
+
 def clean_csv(input_csv):
     '''cleans the CSV file of useless data and saves it as a new CSV file'''
 
@@ -61,7 +63,7 @@ def preprocessing_csv(input_df):
 
 
 
-
+#converts position data to the "Cartesian coordinate system" metric
 def convert_to_cartesian(df):
     #make a copy of the df
     df_copy = df.copy()
@@ -77,6 +79,7 @@ def convert_to_cartesian(df):
     return df_copy
 
 
+#converts data into the stellar classification index
 def convert_spectral_type(spectype):
     non_normal_types = {
         'DQ': 'D',
@@ -92,6 +95,8 @@ def convert_spectral_type(spectype):
     
     return spectype[0].upper()
 
+
+#categorizes size of planet relative to other planets in our solar system.
 def categorize_exoplanets_by_radius(radius):
     #set comparable planets in our solar system
     earth_r_e = 1
@@ -109,12 +114,14 @@ def categorize_exoplanets_by_radius(radius):
         return "Unknown"
 
 
+
+#calculates the "Earth Similarity Index" of the planet.
 def calculate_esi(df):
     S_earth = 1
     R_earth = 1
     S = df['pl_insol'].replace(0, np.nan)  
     R = df['pl_rade'].replace(0, np.nan)
-
+    
     esi = 1 - np.sqrt(0.5 * (((S - S_earth) / (S + S_earth))**2 + ((R - R_earth) / (R + R_earth))**2))
 
     return esi

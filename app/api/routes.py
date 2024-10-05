@@ -5,19 +5,20 @@ import simplejson as json
 
 router = APIRouter()
 
+#fetches the data from the host
 @router.get("/fetch")
 def fetch_data():
     fetch_data_and_save()
     return {"message":"data fetched and saved as CSV"}
 
-
+#all data
 @router.get("/data")
 def get_exo_data():
     """Return the cleaned exoplanet data."""
     data = get_data()
     return json.loads(data)
 
-
+#distance filter
 @router.post("/data/filter/distance")
 async def get_exoplanet_data_distance(request: Request):
     # Extract max distance from JSON
@@ -31,7 +32,7 @@ async def get_exoplanet_data_distance(request: Request):
 
     return {"filered_data": filtered_data}
 
-
+#telescope/wavelength filter
 @router.post("/data/filter/diameter-wavelength")
 async def get_exoplanet_data_diameter_wavelength(request: Request):
     try:
@@ -50,6 +51,8 @@ async def get_exoplanet_data_diameter_wavelength(request: Request):
     except Exception as e:
         return {"error" : str(e)}
     
+
+#method filter
 @router.post("/data/filter/discovery-method")
 async def get_exoplanet_data_discovery_method(request: Request):
     try:
@@ -67,6 +70,7 @@ async def get_exoplanet_data_discovery_method(request: Request):
     except Exception as e:
         return {"error": str(e)}
     
+#ESI (earth similarity index) filter
 @router.post("/data/filter/esi")
 async def get_exoplanet_data_esi(request: Request):
     try:
@@ -84,6 +88,8 @@ async def get_exoplanet_data_esi(request: Request):
     except Exception as e:
         return {"error": str(e)}
     
+
+#combined filter
 @router.post("/data/filter/combined")
 async def apply_combined_filters_api(request: Request):
     try:
